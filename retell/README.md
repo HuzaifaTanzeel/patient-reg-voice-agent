@@ -13,9 +13,10 @@ custom function.
 | Agent name | CareCloud Patient Intake |
 | Channel | voice |
 | Language | en-US |
-| Voice | `11labs-Marissa` (warm American female) |
+| Voice | `11labs-Brian` (American male) |
 | Model | Retell default (`gpt-5.6-terra`) |
-| Published | yes (version 2, no phone number attached) |
+| Published | yes (version 3) |
+| Phone number | `+1 (413) 848-7102` (`+14138487102`), inbound agent bound |
 
 Agent type: **Single/Multi-Prompt** (Retell LLM response engine with a single
 `general_prompt`), not a Conversation Flow.
@@ -27,6 +28,12 @@ Version history:
   before saving instead of a field-by-field recital.
 - v2 added the PDF's scored edge cases: handling out-of-order / volunteered info,
   interruptions, and a graceful start-over mid-conversation.
+- v3 gave the coordinator a name (Huzaifa Tanzeel), switched the voice to
+  `11labs-Brian`, and updated the opening line accordingly.
+
+Begin message (v3, spoken first by the agent):
+> "Hi, this is Huzaifa Tanzeel with patient registration. I'll get you set up in
+> just a couple of minutes. To get started, could I grab your full name?"
 
 Note on DOB format: the agent sends `YYYY-MM-DD`. The challenge PDF lists
 `MM/DD/YYYY`; the deployed API accepts both, and `YYYY-MM-DD` was chosen to avoid
