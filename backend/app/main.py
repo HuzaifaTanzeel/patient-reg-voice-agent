@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
@@ -34,7 +35,22 @@ async def lifespan(_: FastAPI):
 
 
 app = FastAPI(title="Patient Registration API", version="0.1.0", lifespan=lifespan)
+# Temporarily permissive so a local dashboard can call the API.
+# Lock this down to the React dashboard's real deployed origin once that URL exists.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.include_router(patients_router)
+
+
+@app.get("/health")
+async def health() -> dict[str, str]:
+    return {"status": "ok"}
+
 
 
 def _json_safe(value: object) -> object:
