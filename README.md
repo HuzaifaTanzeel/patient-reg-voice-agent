@@ -6,7 +6,7 @@ A phone intake agent that registers patients into Postgres. Retell handles the c
 
 **API:** https://api-production-57f92.up.railway.app
 
-**Dashboard:** [https://api-production-57f92.up.railway.app/dashboard](https://gravity-vision-spark.lovable.app/)
+**Dashboard:** https://gravity-vision-spark.lovable.app/
 
 ## Architecture
 
