@@ -1,0 +1,35 @@
+{
+  "type": "custom",
+  "name": "update_patient",
+  "description": "Update an existing patient record for a returning caller. Use the patient_id returned by lookup_patient and include ONLY the fields the caller wants to change. Call at most once per update, after the caller confirms the change.",
+  "url": "https://api-production-57f92.up.railway.app/retell/tools/update_patient",
+  "method": "POST",
+  "args_at_root": false,
+  "timeout_ms": 30000,
+  "speak_during_execution": true,
+  "speak_after_execution": true,
+  "execution_message_description": "Say a brief, natural reassurance that you're updating their information now.",
+  "parameters": {
+    "type": "object",
+    "required": ["patient_id"],
+    "properties": {
+      "patient_id": { "type": "string", "description": "The patient_id returned by lookup_patient (UUID)." },
+      "first_name": { "type": "string", "description": "Updated legal first name." },
+      "last_name": { "type": "string", "description": "Updated legal last name." },
+      "date_of_birth": { "type": "string", "description": "Updated date of birth in YYYY-MM-DD format, a real past date." },
+      "sex": { "type": "string", "enum": ["Male", "Female", "Other", "Decline to Answer"], "description": "Updated sex." },
+      "phone_number": { "type": "string", "description": "Updated 10-digit US phone number." },
+      "address_line_1": { "type": "string", "description": "Updated street address." },
+      "address_line_2": { "type": "string", "description": "Updated apartment/suite/unit." },
+      "city": { "type": "string", "description": "Updated city." },
+      "state": { "type": "string", "description": "Updated 2-letter US state abbreviation." },
+      "zip_code": { "type": "string", "description": "Updated 5-digit US ZIP (or ZIP+4)." },
+      "email": { "type": "string", "description": "Updated email address." },
+      "insurance_provider": { "type": "string", "description": "Updated insurance provider/company name." },
+      "insurance_member_id": { "type": "string", "description": "Updated insurance member/subscriber ID." },
+      "preferred_language": { "type": "string", "description": "Updated preferred language." },
+      "emergency_contact_name": { "type": "string", "description": "Updated emergency contact full name." },
+      "emergency_contact_phone": { "type": "string", "description": "Updated emergency contact 10-digit US phone number." }
+    }
+  }
+}

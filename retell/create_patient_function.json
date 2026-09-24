@@ -2,13 +2,13 @@
   "type": "custom",
   "name": "create_patient",
   "description": "Save a new patient record. Only call this AFTER the caller has explicitly confirmed that all of their collected information is correct during the read-back step. Call it at most once per call.",
-  "url": "https://api-production-57f92.up.railway.app/patients",
+  "url": "https://api-production-57f92.up.railway.app/retell/tools/create_patient",
   "method": "POST",
-  "args_at_root": true,
+  "args_at_root": false,
   "timeout_ms": 30000,
   "speak_during_execution": true,
   "speak_after_execution": true,
-  "execution_message_description": "Say a brief, natural reassurance that you're saving their information now, e.g. 'Perfect, let me get you registered—one moment.'",
+  "execution_message_description": "Say a brief, natural reassurance that you're saving their information now, e.g. 'Perfect, let me get you registered-one moment.'",
   "parameters": {
     "type": "object",
     "required": [
@@ -36,7 +36,7 @@
       "email": { "type": "string", "description": "Optional email address." },
       "insurance_provider": { "type": "string", "description": "Optional insurance provider/company name." },
       "insurance_member_id": { "type": "string", "description": "Optional insurance member/subscriber ID." },
-      "preferred_language": { "type": "string", "description": "Optional preferred language. Defaults to English if not provided." },
+      "preferred_language": { "type": "string", "description": "Optional preferred language. Defaults to English if not provided; set to 'Spanish' if the call is conducted in Spanish." },
       "emergency_contact_name": { "type": "string", "description": "Optional emergency contact full name." },
       "emergency_contact_phone": { "type": "string", "description": "Optional emergency contact US phone number, 10 digits." }
     }
