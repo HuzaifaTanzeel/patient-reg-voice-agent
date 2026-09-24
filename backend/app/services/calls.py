@@ -83,14 +83,18 @@ async def record_webhook(session: AsyncSession, call_data: dict) -> Call | None:
     return call
 
 
-async def list_for_patient(
-    session: AsyncSession, patient_id: uuid.UUID
+async def list_calls(
+    session: AsyncSession, patient_id: uuid.UUID | None = None
 ) -> list[Call]:
     from sqlalchemy import select
 
-    stmt = (
-        select(Call)
-        .where(Call.patient_id == patient_id)
-        .order_by(Call.created_at.desc())
-    )
+    stmt = select(Call).order_by(Call.created_at.desc())
+    if patient_id is not None:
+        stmt = stmt.where(Call.patient_id == patient_id)
     return list((await session.scalars(stmt)).all())
+
+
+async def list_for_patient(
+    session: AsyncSession, patient_id: uuid.UUID
+) -> list[Call]:
+    return await list_calls(session, patient_id)

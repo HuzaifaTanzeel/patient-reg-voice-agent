@@ -21,5 +21,12 @@ class Settings(BaseSettings):
     # production; tests and local calls without a signature can set it to false.
     verify_retell_signature: bool = True
 
+    # Browser origins allowed to call this API. Lovable preview hosts match by
+    # default so a separately hosted dashboard can read patients, appointments,
+    # and calls. Same-origin requests (the Railway URL itself) do not need this.
+    cors_origin_regex: str = (
+        r"https://([a-zA-Z0-9-]+\.)*(lovable\.app|lovable\.dev|lovableproject\.com)"
+    )
+
 
 settings = Settings()

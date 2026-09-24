@@ -76,6 +76,15 @@ async def book(
     return appointment
 
 
+async def list_appointments(
+    session: AsyncSession, patient_id: uuid.UUID | None = None
+) -> list[Appointment]:
+    stmt = select(Appointment).order_by(Appointment.scheduled_at.desc())
+    if patient_id is not None:
+        stmt = stmt.where(Appointment.patient_id == patient_id)
+    return list((await session.scalars(stmt)).all())
+
+
 async def list_for_patient(
     session: AsyncSession, patient_id: uuid.UUID
 ) -> list[Appointment]:
