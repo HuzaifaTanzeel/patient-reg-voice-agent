@@ -9,8 +9,10 @@ from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from backend.app.database import engine
+from backend.app.config import settings
 from backend.app.routes.dashboard import router as dashboard_router
 from backend.app.routes.patients import router as patients_router
+from backend.app.routes.records import router as records_router
 from backend.app.routes.retell import router as retell_router
 
 logger = logging.getLogger("patient_reg")
@@ -37,17 +39,18 @@ async def lifespan(_: FastAPI):
 
 
 app = FastAPI(title="Patient Registration API", version="0.1.0", lifespan=lifespan)
-# The dashboard is server-rendered and same-origin, so no cross-origin access is
-# needed. CORS is left restrictive (disabled) by default; add specific origins here
-# only if an external browser client is introduced later.
+# Lovable (and any other browser app on a different host) needs this. Override
+# with CORS_ORIGIN_REGEX. Credentialed cookies stay off.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[],
+    allow_origin_regex=settings.cors_origin_regex,
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 app.include_router(patients_router)
+app.include_router(records_router)
 app.include_router(retell_router)
 app.include_router(dashboard_router)
 
