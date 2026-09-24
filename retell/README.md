@@ -15,15 +15,22 @@ custom function.
 | Language | en-US |
 | Voice | `11labs-Marissa` (warm American female) |
 | Model | Retell default (`gpt-5.6-terra`) |
-| Published | yes (version 1, no phone number attached) |
+| Published | yes (version 2, no phone number attached) |
 
 Agent type: **Single/Multi-Prompt** (Retell LLM response engine with a single
 `general_prompt`), not a Conversation Flow.
 
-Version note: v1 tightened the conversation to feel faster and more human -
-questions are batched (name together; DOB + sex together; whole address at once),
-the agent no longer echoes each answer back, and there is a single concise final
-read-back before saving instead of a field-by-field recital.
+Version history:
+- v1 tightened the conversation to feel faster and more human - questions are
+  batched (name together; DOB + sex together; whole address at once), the agent no
+  longer echoes each answer back, and there is a single concise final read-back
+  before saving instead of a field-by-field recital.
+- v2 added the PDF's scored edge cases: handling out-of-order / volunteered info,
+  interruptions, and a graceful start-over mid-conversation.
+
+Note on DOB format: the agent sends `YYYY-MM-DD`. The challenge PDF lists
+`MM/DD/YYYY`; the deployed API accepts both, and `YYYY-MM-DD` was chosen to avoid
+day/month ambiguity for the model.
 
 ## Files
 - [`system_prompt.md`](system_prompt.md) - the agent's `general_prompt`.
