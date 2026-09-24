@@ -1,0 +1,44 @@
+{
+  "type": "custom",
+  "name": "create_patient",
+  "description": "Save a new patient record. Only call this AFTER the caller has explicitly confirmed that all of their collected information is correct during the read-back step. Call it at most once per call.",
+  "url": "https://api-production-57f92.up.railway.app/patients",
+  "method": "POST",
+  "args_at_root": true,
+  "timeout_ms": 30000,
+  "speak_during_execution": true,
+  "speak_after_execution": true,
+  "execution_message_description": "Say a brief, natural reassurance that you're saving their information now, e.g. 'Perfect, let me get you registered—one moment.'",
+  "parameters": {
+    "type": "object",
+    "required": [
+      "first_name",
+      "last_name",
+      "date_of_birth",
+      "sex",
+      "phone_number",
+      "address_line_1",
+      "city",
+      "state",
+      "zip_code"
+    ],
+    "properties": {
+      "first_name": { "type": "string", "description": "Patient's legal first name." },
+      "last_name": { "type": "string", "description": "Patient's legal last name." },
+      "date_of_birth": { "type": "string", "description": "Date of birth in YYYY-MM-DD format. Must be a real date in the past." },
+      "sex": { "type": "string", "enum": ["Male", "Female", "Other", "Decline to Answer"], "description": "Biological sex, exactly one of the allowed values." },
+      "phone_number": { "type": "string", "description": "US phone number, 10 digits (e.g. 5551234567)." },
+      "address_line_1": { "type": "string", "description": "Street address, e.g. '123 Main St'." },
+      "address_line_2": { "type": "string", "description": "Optional apartment, suite, or unit number." },
+      "city": { "type": "string", "description": "City name." },
+      "state": { "type": "string", "description": "2-letter US state abbreviation, e.g. 'CA'." },
+      "zip_code": { "type": "string", "description": "5-digit US ZIP code, optionally ZIP+4." },
+      "email": { "type": "string", "description": "Optional email address." },
+      "insurance_provider": { "type": "string", "description": "Optional insurance provider/company name." },
+      "insurance_member_id": { "type": "string", "description": "Optional insurance member/subscriber ID." },
+      "preferred_language": { "type": "string", "description": "Optional preferred language. Defaults to English if not provided." },
+      "emergency_contact_name": { "type": "string", "description": "Optional emergency contact full name." },
+      "emergency_contact_phone": { "type": "string", "description": "Optional emergency contact US phone number, 10 digits." }
+    }
+  }
+}
