@@ -6,3 +6,8 @@ __pycache__/
 *.egg-info/
 .mypy_cache/
 .ruff_cache/
+
+# Local / challenge artifacts
+.cursor/
+*.pdf
+voice-ai-agent-plan.md
