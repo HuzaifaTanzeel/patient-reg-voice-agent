@@ -9,6 +9,7 @@ from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from backend.app.database import engine
+from backend.app.routes.dashboard import router as dashboard_router
 from backend.app.routes.patients import router as patients_router
 from backend.app.routes.retell import router as retell_router
 
@@ -48,6 +49,7 @@ app.add_middleware(
 )
 app.include_router(patients_router)
 app.include_router(retell_router)
+app.include_router(dashboard_router)
 
 
 @app.get("/health")

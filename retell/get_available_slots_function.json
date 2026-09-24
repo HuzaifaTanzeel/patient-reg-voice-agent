@@ -1,0 +1,16 @@
+{
+  "type": "custom",
+  "name": "get_available_slots",
+  "description": "Get a few upcoming available appointment slots to offer the caller after registration. Returns a list of slots, each with an 'iso' value (to pass to book_appointment) and a human 'label' to read aloud.",
+  "url": "https://api-production-57f92.up.railway.app/retell/tools/get_available_slots",
+  "method": "POST",
+  "args_at_root": false,
+  "timeout_ms": 15000,
+  "speak_during_execution": false,
+  "speak_after_execution": true,
+  "parameters": {
+    "type": "object",
+    "required": [],
+    "properties": {}
+  }
+}

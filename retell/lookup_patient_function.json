@@ -1,0 +1,18 @@
+{
+  "type": "custom",
+  "name": "lookup_patient",
+  "description": "Check whether an existing, active patient record matches a phone number. Call this quietly right after collecting the caller's phone number to detect returning callers. If phone_number is omitted, the caller's caller-ID number is used.",
+  "url": "https://api-production-57f92.up.railway.app/retell/tools/lookup_patient",
+  "method": "POST",
+  "args_at_root": false,
+  "timeout_ms": 15000,
+  "speak_during_execution": false,
+  "speak_after_execution": true,
+  "parameters": {
+    "type": "object",
+    "required": [],
+    "properties": {
+      "phone_number": { "type": "string", "description": "The 10-digit US phone number the caller gave for registration." }
+    }
+  }
+}

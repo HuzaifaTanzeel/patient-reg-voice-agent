@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Patients{% endblock %}
+{% block content %}
+<div class="card">
+  <form class="filters" method="get" action="/dashboard">
+    <label>Last name
+      <input type="text" name="last_name" value="{{ last_name }}" placeholder="e.g. Lovelace" />
+    </label>
+    <label>Phone number
+      <input type="text" name="phone_number" value="{{ phone_number }}" placeholder="e.g. 2025550143" />
+    </label>
+    <button type="submit">Filter</button>
+    <a class="btn-secondary" href="/dashboard">Reset</a>
+  </form>
+  <div class="muted">{{ count }} patient{{ '' if count == 1 else 's' }}</div>
+</div>
+
+<div class="card">
+  {% if patients %}
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>DOB</th>
+        <th>Sex</th>
+        <th>Phone</th>
+        <th>City / State</th>
+        <th>Language</th>
+        <th>Registered</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in patients %}
+      <tr>
+        <td><a href="/dashboard/patients/{{ p.patient_id }}">{{ p.first_name }} {{ p.last_name }}</a></td>
+        <td>{{ p.date_of_birth }}</td>
+        <td>{{ p.sex.value if p.sex else '' }}</td>
+        <td>{{ p.phone_number }}</td>
+        <td>{{ p.city }}, {{ p.state }}</td>
+        <td>{{ p.preferred_language or 'English' }}</td>
+        <td class="muted">{{ p.created_at.strftime('%Y-%m-%d %H:%M') if p.created_at else '' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="empty">No patients match your filters yet.</div>
+  {% endif %}
+</div>
+{% endblock %}

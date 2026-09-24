@@ -1,0 +1,21 @@
+{
+  "type": "custom",
+  "name": "book_appointment",
+  "description": "Book a first appointment for a patient. Use the patient_id from create_patient/lookup_patient and the exact 'iso' value of the slot the caller chose from get_available_slots.",
+  "url": "https://api-production-57f92.up.railway.app/retell/tools/book_appointment",
+  "method": "POST",
+  "args_at_root": false,
+  "timeout_ms": 20000,
+  "speak_during_execution": true,
+  "speak_after_execution": true,
+  "execution_message_description": "Say a brief, natural reassurance that you're booking the appointment now.",
+  "parameters": {
+    "type": "object",
+    "required": ["patient_id", "slot_iso"],
+    "properties": {
+      "patient_id": { "type": "string", "description": "The patient_id (UUID) the appointment is for." },
+      "slot_iso": { "type": "string", "description": "The chosen slot's 'iso' value returned by get_available_slots (ISO-8601 datetime)." },
+      "reason": { "type": "string", "description": "Optional short reason for the visit, e.g. 'New patient visit'." }
+    }
+  }
+}

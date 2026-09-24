@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}{{ patient.first_name }} {{ patient.last_name }}{% endblock %}
+{% block content %}
+<div class="card">
+  <a class="muted" href="/dashboard">&larr; Back to all patients</a>
+  <h2 style="margin:8px 0 4px 0;">{{ patient.first_name }} {{ patient.last_name }}</h2>
+  <div class="muted">Patient ID: {{ patient.patient_id }}</div>
+</div>
+
+<div class="card">
+  <h3 style="margin-top:0;">Demographics</h3>
+  <div class="grid">
+    <div><span>Date of birth</span>{{ patient.date_of_birth }}</div>
+    <div><span>Sex</span>{{ patient.sex.value if patient.sex else '' }}</div>
+    <div><span>Phone</span>{{ patient.phone_number }}</div>
+    <div><span>Email</span>{{ patient.email or '-' }}</div>
+    <div><span>Address</span>{{ patient.address_line_1 }}{% if patient.address_line_2 %}, {{ patient.address_line_2 }}{% endif %}</div>
+    <div><span>City / State / ZIP</span>{{ patient.city }}, {{ patient.state }} {{ patient.zip_code }}</div>
+    <div><span>Insurance</span>{{ patient.insurance_provider or '-' }}</div>
+    <div><span>Member ID</span>{{ patient.insurance_member_id or '-' }}</div>
+    <div><span>Preferred language</span>{{ patient.preferred_language or 'English' }}</div>
+    <div><span>Emergency contact</span>{{ patient.emergency_contact_name or '-' }}{% if patient.emergency_contact_phone %} ({{ patient.emergency_contact_phone }}){% endif %}</div>
+    <div><span>Created</span>{{ patient.created_at.strftime('%Y-%m-%d %H:%M') if patient.created_at else '' }}</div>
+    <div><span>Updated</span>{{ patient.updated_at.strftime('%Y-%m-%d %H:%M') if patient.updated_at else '' }}</div>
+  </div>
+</div>
+
+<div class="card">
+  <h3 style="margin-top:0;">Appointments</h3>
+  {% if appointments %}
+  <table>
+    <thead><tr><th>When</th><th>Reason</th><th>Status</th></tr></thead>
+    <tbody>
+      {% for a in appointments %}
+      <tr>
+        <td>{{ a.scheduled_at | slot_label }}</td>
+        <td>{{ a.reason or '-' }}</td>
+        <td><span class="pill">{{ a.status }}</span></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="empty">No appointments booked.</div>
+  {% endif %}
+</div>
+
+<div class="card">
+  <h3 style="margin-top:0;">Call history</h3>
+  {% if calls %}
+    {% for c in calls %}
+    <div style="margin-bottom:16px;">
+      <div class="muted" style="margin-bottom:6px;">
+        <span class="pill">{{ c.call_id }}</span>
+        {% if c.disconnection_reason %} &middot; ended: {{ c.disconnection_reason }}{% endif %}
+        {% if c.duration_ms %} &middot; {{ (c.duration_ms / 1000) | round(0, 'floor') | int }}s{% endif %}
+      </div>
+      {% if c.summary %}<div style="margin-bottom:6px;"><strong>Summary:</strong> {{ c.summary }}</div>{% endif %}
+      {% if c.transcript %}<pre class="transcript">{{ c.transcript }}</pre>{% else %}<div class="empty">No transcript stored.</div>{% endif %}
+    </div>
+    {% endfor %}
+  {% else %}
+  <div class="empty">No calls linked to this patient.</div>
+  {% endif %}
+</div>
+{% endblock %}
