@@ -98,9 +98,3 @@ The prompt batches questions, confirms once before saving, looks up the phone nu
 - Tool routes are not authenticated. Anything that can reach the public URL can call them. The webhook is signed; the tools are not.
 - Appointment slots are mock weekday hours, not a real clinic calendar.
 - This is not a HIPAA-compliant deployment (no BAA, no encryption-at-rest review, transcripts stored in Postgres).
-
-## Next steps
-
-- Authenticate `/retell/tools/*` (shared secret or Retell signature on tool calls).
-- Replace mock slots with a real schedule and conflict rules.
-- Add an audit log for updates made by the voice agent versus the REST API.
