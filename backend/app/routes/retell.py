@@ -12,8 +12,6 @@ Two kinds of inbound requests from Retell:
    transcript, summary, and disconnection reason (also the dropped-call trace).
 """
 
-import hashlib
-import hmac
 import json
 import logging
 import uuid
@@ -21,6 +19,7 @@ from datetime import datetime
 
 from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import ValidationError
+from retell.lib.webhook_auth import verify as verify_retell_webhook
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.app.config import settings
@@ -218,14 +217,19 @@ async def tool_book_appointment(
 # Webhook
 # --------------------------------------------------------------------------- #
 def _verify_signature(body: bytes, signature: str | None) -> bool:
+    """Check Retell's ``x-retell-signature`` (``v=<ms>,d=<hmac>`` over body+timestamp)."""
     if not settings.verify_retell_signature:
         return True
     if not settings.retell_api_key or not signature:
         return False
-    expected = hmac.new(
-        settings.retell_api_key.encode("utf-8"), body, hashlib.sha256
-    ).hexdigest()
-    return hmac.compare_digest(expected, signature)
+    try:
+        return bool(
+            verify_retell_webhook(
+                body.decode("utf-8"), settings.retell_api_key, signature
+            )
+        )
+    except Exception:  # noqa: BLE001 - malformed signature/body is a reject, not a 500
+        return False
 
 
 @router.post("/webhook")
