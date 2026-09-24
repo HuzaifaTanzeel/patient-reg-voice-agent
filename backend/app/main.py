@@ -10,6 +10,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from backend.app.database import engine
 from backend.app.routes.patients import router as patients_router
+from backend.app.routes.retell import router as retell_router
 
 logger = logging.getLogger("patient_reg")
 
@@ -35,22 +36,23 @@ async def lifespan(_: FastAPI):
 
 
 app = FastAPI(title="Patient Registration API", version="0.1.0", lifespan=lifespan)
-# Temporarily permissive so a local dashboard can call the API.
-# Lock this down to the React dashboard's real deployed origin once that URL exists.
+# The dashboard is server-rendered and same-origin, so no cross-origin access is
+# needed. CORS is left restrictive (disabled) by default; add specific origins here
+# only if an external browser client is introduced later.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[],
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 app.include_router(patients_router)
+app.include_router(retell_router)
 
 
 @app.get("/health")
 async def health() -> dict[str, str]:
     return {"status": "ok"}
-
 
 
 def _json_safe(value: object) -> object:
