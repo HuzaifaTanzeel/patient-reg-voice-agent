@@ -24,6 +24,12 @@ Caller --> Retell (STT / LLM / TTS)
 
 Telephony stays in Retell. The API never sees audio. Tools post to `/retell/tools/*` with `args_at_root: false`, so every call carries `call.call_id` and can be linked to the patient it created or updated. The webhook later attaches the transcript and summary.
 
+## Architecture Diagram
+
+![Patient registration voice agent architecture](architecture.svg)
+
+A caller talks to a Retell voice agent, which calls FastAPI tool and webhook endpoints on Railway. FastAPI writes to PostgreSQL through a shared service layer that also backs the REST API and the Lovable staff dashboard. Solid arrows are traffic during the call. The dashed arrow is the signed webhook after the call ends.
+
 ## Stack
 
 | Layer | Choice | Why |
